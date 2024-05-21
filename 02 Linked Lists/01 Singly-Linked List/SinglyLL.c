@@ -7,7 +7,7 @@ typedef struct NodeStruct {
 } Node;
 
 void createList(Node **head);
-// void displayList();
+void displayList(Node *head);
 // void insertAtBegin();
 // void insertAtEnding();
 // void countNodes();
@@ -28,7 +28,7 @@ int main()
     {
         printf("\nPlease Insert a Valid Option:\n");
         printf("1...Create List.\n");
-        // printf("2...Display List.\n");
+        printf("2...Display List.\n");
         // printf("3...Insert at beginning.\n");
         // printf("4...Insert at the end.\n");
         // printf("5...Count nodes.\n");
@@ -49,6 +49,10 @@ int main()
         case 1:
             createList(&head);
             break;
+
+        case 2:
+            displayList(head);
+            break;
         
         default:
             break;
@@ -61,4 +65,17 @@ void createList(Node **head)
 {
     head = NULL;
     printf("List Created!\n");
+}
+
+void displayList(Node *head) {
+    Node* current = head;
+    if (head == NULL)
+    {
+        printf("Empty List!\n");
+    }
+    
+    while (current != NULL)
+    {
+        printf("%d -> ", current -> data);
+    }
 }
