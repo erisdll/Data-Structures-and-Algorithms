@@ -6,7 +6,7 @@ typedef struct NodeStruct {
     struct NodeStruct* next;
 } Node;
 
-void createList(Node **start);
+void createList(Node **head);
 // void displayList();
 // void insertAtBegin();
 // void insertAtEnding();
@@ -22,7 +22,7 @@ void createList(Node **start);
 
 int main()
 {
-    Node *start = NULL;
+    Node *head = NULL;
     int choice;
     do
     {
@@ -47,7 +47,7 @@ int main()
         switch (choice)
         {
         case 1:
-            createList(&start);
+            createList(&head);
             break;
         
         default:
@@ -57,8 +57,8 @@ int main()
     } while (choice != 0);
 }
 
-void createList(Node **start)
+void createList(Node **head)
 {
-    start = NULL;
+    head = NULL;
     printf("List Created!\n");
 }
