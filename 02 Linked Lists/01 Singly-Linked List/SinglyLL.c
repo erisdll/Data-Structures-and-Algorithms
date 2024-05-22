@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct NodeStruct {
-    int data;
-    struct NodeStruct* next;
+typedef struct node_struct
+{
+    int node_data;
+    struct node_struct *next_node;
 } Node;
 
-void createList(Node **head);
-void displayList(Node *head);
-// void insertAtBegin();
-// void insertAtEnding();
+void create_list(Node **head_pointer);
+void display_list(Node *head_pointer);
+void insert_at_beginning(Node **head_pointer);
+void insert_at_ending(Node *head_pointer);
 // void countNodes();
 // void insertAt();
 // void insertBefore();
@@ -22,15 +23,15 @@ void displayList(Node *head);
 
 int main()
 {
-    Node *head = NULL;
+    Node *head_pointer = NULL;
     int choice;
     do
     {
         printf("\nPlease Insert a Valid Option:\n");
         printf("1...Create List.\n");
         printf("2...Display List.\n");
-        // printf("3...Insert at beginning.\n");
-        // printf("4...Insert at the end.\n");
+        printf("3...Insert at beginning.\n");
+        printf("4...Insert at the end.\n");
         // printf("5...Count nodes.\n");
         // printf("6...Insert at specific position.\n");
         // printf("7...Insert before a given node.\n");
@@ -47,35 +48,113 @@ int main()
         switch (choice)
         {
         case 1:
-            createList(&head);
+            create_list(&head_pointer);
             break;
 
         case 2:
-            displayList(head);
+            display_list(head_pointer);
             break;
-        
+
+        case 3:
+            insert_at_beginning(&head_pointer);
+            break;
+
+        case 4:
+            insert_at_ending(head_pointer);
+            break;
+
+        case 0:
+            printf("EXITING PROGRAM!\n");
+            break;
+
         default:
             break;
         }
 
     } while (choice != 0);
+
+    return 0;
 }
 
-void createList(Node **head)
+void create_list(Node **head_pointer)
 {
-    head = NULL;
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    int input_data;
+
+    if (new_node == NULL)
+    {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+
+    printf("Insert node value:\n");
+    scanf("%d", &(input_data));
+
+    new_node -> node_data = input_data;
+    new_node -> next_node = *head_pointer;
+    *head_pointer = new_node;
+
     printf("List Created!\n");
 }
 
-void displayList(Node *head) {
-    Node* current = head;
-    if (head == NULL)
+void display_list(Node *head_pointer)
+{
+    Node *current_node = head_pointer;
+    if (head_pointer == NULL)
     {
         printf("Empty List!\n");
     }
-    
-    while (current != NULL)
+
+    while (current_node != NULL)
     {
-        printf("%d -> ", current -> data);
+        printf("%d -> ", current_node -> node_data);
+        current_node = current_node -> next_node;
     }
+
+    printf("NULL\n");
+}
+
+void insert_at_beginning(Node **head_pointer)
+{
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    int input_data;
+
+    if (new_node == NULL)
+    {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+
+    printf("Insert node value:\n");
+    scanf("%d", &input_data);
+
+    new_node -> node_data = input_data;
+    new_node -> next_node = *head_pointer;
+    
+    *head_pointer = new_node;
+}
+
+void insert_at_ending(Node *head_pointer)
+{
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    Node *current_node = head_pointer;
+    int input_data;
+
+    if (new_node == NULL)
+    {
+        printf("Memory allocation failed!");
+    }
+    
+    printf("Insert node value:\n");
+    scanf("%d", &input_data);
+
+    new_node -> node_data = input_data;
+    new_node -> next_node = NULL;
+
+    while (current_node -> next_node != NULL)
+    {
+        current_node = current_node -> next_node;
+    }
+    
+    current_node -> next_node = new_node;
 }
