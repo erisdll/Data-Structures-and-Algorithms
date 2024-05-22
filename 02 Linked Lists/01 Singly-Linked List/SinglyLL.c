@@ -7,19 +7,14 @@ typedef struct node_struct
     struct node_struct *next_node;
 } Node;
 
-void create_list(Node **head_pointer);
-void display_list(Node *head_pointer);
-void insert_at_beginning(Node **head_pointer);
-void insert_at_ending(Node *head_pointer);
-// void countNodes();
-// void insertAt();
-// void insertBefore();
-// void searchNode();
-// void deleteFirst();
-// void deleteLast();
-// void deleteAny();
-// void updateNode();
-// void reverseList();
+void create_list_case(Node **head_pointer);
+void display_list_case(Node *head_pointer);
+void count_nodes_case(Node *head_pointer);
+void insert_node_case(Node **head_pointer);
+void search_node_case(Node *head_pointer);
+void update_node_case(Node *head_pointer);
+void delete_node_case(Node **head_pointer);
+void reverse_list_case(Node **head_pointer);
 
 int main()
 {
@@ -28,39 +23,50 @@ int main()
     do
     {
         printf("\nPlease Insert a Valid Option:\n");
-        printf("1...Create List.\n");
-        printf("2...Display List.\n");
-        printf("3...Insert at beginning.\n");
-        printf("4...Insert at the end.\n");
-        // printf("5...Count nodes.\n");
-        // printf("6...Insert at specific position.\n");
-        // printf("7...Insert before a given node.\n");
-        // printf("8...Search an element.\n");
-        // printf("9...Delete first element.\n");
-        // printf("10...Delete last element.\n");
-        // printf("11...Delete any element.\n");
-        // printf("12...Update a node.\n");
-        // printf("13...Reverse the List.\n");
-        printf("0...EXIT.\n");
+        printf("1 — Create List.\n");
+        printf("2 — Display List.\n");
+        printf("3 — Count nodes.\n");
+        printf("4 — Insert a node.\n");
+        printf("5 — Search an element.\n");
+        printf("6 — Update a node.\n");
+        printf("7 — Delete a node.\n");
+        printf("8 — Reverse list.\n");
+        printf("0 — EXIT.\n");
         printf("\nEnter your choice:");
         scanf("%d", &choice);
 
         switch (choice)
         {
         case 1:
-            create_list(&head_pointer);
+            create_list_case(&head_pointer);
             break;
 
         case 2:
-            display_list(head_pointer);
+            display_list_case(head_pointer);
             break;
 
         case 3:
-            insert_at_beginning(&head_pointer);
+            count_nodes_case(head_pointer);
             break;
 
         case 4:
-            insert_at_ending(head_pointer);
+            insert_node_case(&head_pointer);
+            break;
+
+        case 5:
+            search_node_case(head_pointer);
+            break;
+
+        case 6:
+            update_node_case(head_pointer);
+            break;
+
+        case 7:
+            delete_node_case(&head_pointer);
+            break;
+
+        case 8:
+            reverse_list_case(&head_pointer);
             break;
 
         case 0:
@@ -70,16 +76,77 @@ int main()
         default:
             break;
         }
-
     } while (choice != 0);
 
     return 0;
 }
 
-void create_list(Node **head_pointer)
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void create_list(Node **head_pointer, int new_data);
+void display_list(Node *head_pointer);
+void count_nodes(Node *head_pointer);
+void push_node(Node **head_pointer);
+void append_node(Node *head_pointer);
+void insert_node(Node **head_pointer);
+// void insertBefore();
+// void searchNode();
+// void deleteFirst();
+// void deleteLast();
+// void deleteAny();
+// void updateNode();
+// void reverseList();
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void create_list_case(Node **head_pointer)
+{
+    int input_data;
+    printf("Insert node value:\n");
+    if (scanf("%d", &input_data) != 1)
+    {
+        printf("Invalid input. Please enter an integer.\n");
+        return;
+    }
+
+    create_list(head_pointer, input_data);
+
+    printf("List Created!\n");
+}
+
+void display_list_case(Node *head_pointer)
+{
+}
+
+void count_nodes_case(Node *head_pointer)
+{
+}
+
+void insert_node_case(Node **head_pointer)
+{
+}
+
+void search_node_case(Node *head_pointer)
+{
+}
+
+void update_node_case(Node *head_pointer)
+{
+}
+
+void delete_node_case(Node **head_pointer)
+{
+}
+
+void reverse_list_case(Node **head_pointer)
+{
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+void create_list(Node **head_pointer, int new_data)
 {
     Node *new_node = (Node *)malloc(sizeof(Node));
-    int input_data;
 
     if (new_node == NULL)
     {
@@ -87,14 +154,9 @@ void create_list(Node **head_pointer)
         return;
     }
 
-    printf("Insert node value:\n");
-    scanf("%d", &(input_data));
-
-    new_node -> node_data = input_data;
-    new_node -> next_node = *head_pointer;
+    new_node->node_data = new_data;
+    new_node->next_node = *head_pointer;
     *head_pointer = new_node;
-
-    printf("List Created!\n");
 }
 
 void display_list(Node *head_pointer)
@@ -107,14 +169,14 @@ void display_list(Node *head_pointer)
 
     while (current_node != NULL)
     {
-        printf("%d -> ", current_node -> node_data);
-        current_node = current_node -> next_node;
+        printf("%d -> ", current_node->node_data);
+        current_node = current_node->next_node;
     }
 
     printf("NULL\n");
 }
 
-void insert_at_beginning(Node **head_pointer)
+void push_node(Node **head_pointer)
 {
     Node *new_node = (Node *)malloc(sizeof(Node));
     int input_data;
@@ -128,13 +190,13 @@ void insert_at_beginning(Node **head_pointer)
     printf("Insert node value:\n");
     scanf("%d", &input_data);
 
-    new_node -> node_data = input_data;
-    new_node -> next_node = *head_pointer;
-    
+    new_node->node_data = input_data;
+    new_node->next_node = *head_pointer;
+
     *head_pointer = new_node;
 }
 
-void insert_at_ending(Node *head_pointer)
+void append_node(Node *head_pointer)
 {
     Node *new_node = (Node *)malloc(sizeof(Node));
     Node *current_node = head_pointer;
@@ -144,17 +206,44 @@ void insert_at_ending(Node *head_pointer)
     {
         printf("Memory allocation failed!");
     }
-    
+
     printf("Insert node value:\n");
     scanf("%d", &input_data);
 
-    new_node -> node_data = input_data;
-    new_node -> next_node = NULL;
+    new_node->node_data = input_data;
+    new_node->next_node = NULL;
 
-    while (current_node -> next_node != NULL)
+    while (current_node->next_node != NULL)
     {
-        current_node = current_node -> next_node;
+        current_node = current_node->next_node;
     }
-    
-    current_node -> next_node = new_node;
+
+    current_node->next_node = new_node;
+}
+
+void insert_node(Node **head_pointer)
+{
+    Node *new_node = (Node *)malloc(sizeof(Node));
+    int input_data;
+}
+
+void count_nodes(Node *head_pointer)
+{
+    Node *current_node = head_pointer;
+    int node_counter = 0;
+
+    while (current_node != NULL)
+    {
+        current_node = current_node->next_node;
+        node_counter++;
+    }
+
+    if (node_counter == 1)
+    {
+        printf("The list has %d node.\n", node_counter);
+    }
+    else
+    {
+        printf("The list has %d nodes.\n", node_counter);
+    }
 }
