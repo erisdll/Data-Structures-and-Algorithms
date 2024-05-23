@@ -3,11 +3,11 @@
 
 // LINEAR SEARCH ALGORITHM //
 
-int linear_search(int array[], int array_length, int desired_element)
+int linearSearch(int array[], int arrayLength, int desiredElement)
 {
-    for (int iterator = 0; iterator < array_length; iterator++)
+    for (int iterator = 0; iterator < arrayLength; iterator++)
     {
-        if (array[iterator] == desired_element)
+        if (array[iterator] == desiredElement)
         {
             return iterator;
         }
@@ -19,12 +19,12 @@ int linear_search(int array[], int array_length, int desired_element)
 
 int main(void)
 {
-    int array_length;
+    int arrayLength;
     printf("Enter the number of elements in the array: ");
-    scanf("%d", &array_length);
+    scanf("%d", &arrayLength);
     printf("\n");
 
-    int *array = malloc(array_length * sizeof(int));
+    int *array = malloc(arrayLength * sizeof(int));
     if (array == NULL)
     {
         fprintf(stderr, "Memory allocation failed.\n");
@@ -32,19 +32,19 @@ int main(void)
     }
 
     printf("Enter the elements of the array:\n");
-    for (int i = 0; i < array_length; i++)
+    for (int i = 0; i < arrayLength; i++)
     {
         printf("Element %d: ", i + 1);
         scanf("%d", &array[i]);
     }
     printf("\n");
 
-    int desired_element;
+    int desiredElement;
     printf("Enter the element to search for: ");
-    scanf("%d", &desired_element);
+    scanf("%d", &desiredElement);
     printf("\n");
 
-    int result = search(array, array_length, desired_element);
+    int result = linearSearch(array, arrayLength, desiredElement);
     (result == -1)
         ? printf("Element is not present in the array\n\n")
         : printf("Element is present at index %d\n\n", result);
