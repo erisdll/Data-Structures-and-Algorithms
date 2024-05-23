@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int search(int array[], int array_length, int desired_element)
+// LINEAR SEARCH ALGORITHM //
+
+int linear_search(int array[], int array_length, int desired_element)
 {
     for (int iterator = 0; iterator < array_length; iterator++)
     {
@@ -12,6 +14,8 @@ int search(int array[], int array_length, int desired_element)
     }
     return -1;
 }
+
+// DRIVER //
 
 int main(void)
 {
