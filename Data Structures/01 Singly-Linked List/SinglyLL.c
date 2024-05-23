@@ -85,7 +85,7 @@ int main()
 
 void create_list(Node **head_pointer, int new_data);
 void display_list(Node *head_pointer);
-void count_nodes(Node *head_pointer);
+int count_nodes(Node *head_pointer);
 void push_node(Node **head_pointer);
 void append_node(Node *head_pointer);
 void insert_node(Node **head_pointer);
@@ -116,10 +116,21 @@ void create_list_case(Node **head_pointer)
 
 void display_list_case(Node *head_pointer)
 {
+    display_list(head_pointer);
 }
 
 void count_nodes_case(Node *head_pointer)
 {
+    int node_count = count_nodes(head_pointer);
+
+        if (node_count == 1)
+    {
+        printf("The list has %d node.\n", node_count);
+    }
+    else
+    {
+        printf("The list has %d nodes.\n", node_count);
+    }
 }
 
 void insert_node_case(Node **head_pointer)
@@ -176,6 +187,20 @@ void display_list(Node *head_pointer)
     printf("NULL\n");
 }
 
+int count_nodes(Node *head_pointer)
+{
+    Node *current_node = head_pointer;
+    int node_counter = 0;
+
+    while (current_node != NULL)
+    {
+        current_node = current_node->next_node;
+        node_counter++;
+    }
+
+    return node_counter;
+}
+
 void push_node(Node **head_pointer)
 {
     Node *new_node = (Node *)malloc(sizeof(Node));
@@ -225,25 +250,4 @@ void insert_node(Node **head_pointer)
 {
     Node *new_node = (Node *)malloc(sizeof(Node));
     int input_data;
-}
-
-void count_nodes(Node *head_pointer)
-{
-    Node *current_node = head_pointer;
-    int node_counter = 0;
-
-    while (current_node != NULL)
-    {
-        current_node = current_node->next_node;
-        node_counter++;
-    }
-
-    if (node_counter == 1)
-    {
-        printf("The list has %d node.\n", node_counter);
-    }
-    else
-    {
-        printf("The list has %d nodes.\n", node_counter);
-    }
 }
