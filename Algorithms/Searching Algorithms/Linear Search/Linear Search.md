@@ -6,8 +6,6 @@
 
 ## Algorithm:
 
-The algorith for linear search can be broken down into the following steps:
-
 - Start: Begin at the first element of the collection of elements.
 - Compare: Compare the current element with the desired element.
 - Found: If the current element is equal to the desired element, return true or index to the current element.
