@@ -9,102 +9,160 @@ typedef struct nodeStruct
 
 Node *createList()
 {
+    // Memory allocation
     Node *headNode = (Node *)malloc(sizeof(Node));
     if (headNode == NULL)
     {
-        fprintf(stderr, "Memory allocation failed!\n");
-        exit(1);
+        printf("Memory allocation failure!\n");
     }
+
+    // Console operations
+    system("clear");
     printf("Please insert node value:");
     scanf("%d", &headNode->nodeValue);
+    system("clear");
 
+    // Node insertion
     headNode->nextNodePtr = NULL;
     return headNode;
 }
 
 void displayList(Node *headPtr)
 {
+    // Declarations
     Node *currentNode = headPtr;
-    if (headPtr == NULL)
-        printf("The list is empty.\n");
-    else
-    {
-        while (currentNode != NULL)
-        {
-            printf("%d -> ", currentNode->nodeValue);
-            currentNode = currentNode->nextNodePtr;
-        }
 
-        printf("NULL\n");
+    // Handle edge case
+    if (headPtr == NULL)
+    {
+        printf("The list is empty.\n\n");
+        return;
     }
-    printf("\n");
+
+    // List traversal and printing
+    while (currentNode != NULL)
+    {
+        printf("%d -> ", currentNode->nodeValue);
+        currentNode = currentNode->nextNodePtr;
+    }
+    printf("NULL\n\n");
 }
 
 void countNodes(Node *headPtr)
 {
+    // Declarations
     Node *currentNode = headPtr;
-    int nodeCounter = 0;
-    
-    while (currentNode != NULL)
+    int counter = 0;
+
+    // List traversal for couting
+    while (currentNode != NULL && headPtr != NULL)
     {
         currentNode = currentNode->nextNodePtr;
-        nodeCounter++;
+        counter++;
     }
 
-    if (nodeCounter == 1)
+    // Console Operations
+    if (headPtr == NULL)
     {
-        printf("The list has 1 node.");
+        printf("The list is empty.\n\n");
+        return;
     }
-    else
-        printf("The list has %d nodes.", nodeCounter);
+    (counter == 1)
+        ? printf("The list has 1 node.\n\n")
+        : printf("The list has %d nodes.\n\n", counter);
 }
 
 void pushNode(Node **headPtr)
 {
+    // Memory Allocation
     Node *newHeadPtr = (Node *)malloc(sizeof(Node));
     if (newHeadPtr == NULL)
     {
-        fprintf(stderr, "Memory allocation failed!\n");
-        exit(1);
+        printf("Memory allocation failure!\n");
     }
-    printf("Insert node value:\n");
+
+    // Console Operations
+    system("clear");
+    printf("Insert node value:");
     scanf("%d", &newHeadPtr->nodeValue);
 
+    // Node push
     newHeadPtr->nextNodePtr = *headPtr;
     *headPtr = newHeadPtr;
 }
 
 void appendNode(Node **headPtr)
 {
+    // Declarations and Allocation
     Node *curNodePtr = *headPtr;
     Node *newNodePtr = (Node *)malloc(sizeof(Node));
+
     if (newNodePtr == NULL)
     {
         printf("Memory allocation failed!");
     }
-    printf("Insert node value:\n");
+
+    // Console Operations
+    system("clear");
+    printf("Insert node value:");
     scanf("%d", &newNodePtr->nodeValue);
 
-    newNodePtr->nextNodePtr = NULL;
-
+    // List traversal to list end
     while (curNodePtr->nextNodePtr != NULL)
     {
         curNodePtr = curNodePtr->nextNodePtr;
     }
 
+    // Node appendal
     curNodePtr->nextNodePtr = newNodePtr;
 }
 
 void insertNode(Node **headPtr)
 {
+    // Declarations & allocation
+    int index;
+    int counter = 0;
     Node *curNodePtr = *headPtr;
     Node *newNodePtr = (Node *)malloc(sizeof(Node));
+
     if (newNodePtr == NULL)
     {
-        printf("Memory allocation failed!");
+        printf("Memory allocation failure.");
     }
-    printf("Insert node value:\n");
+
+    // Console operations
+    system("clear");
+    printf("Enter index to insert into:");
+    scanf("%d", &index);
+    system("clear");
+    printf("Insert node value:");
     scanf("%d", &newNodePtr->nodeValue);
+
+    // Handle insertion at beginning
+    if (index == 0)
+    {
+        newNodePtr->nextNodePtr = *headPtr;
+        *headPtr = newNodePtr;
+    }
+
+    // List traversal to correct node
+    while (curNodePtr != NULL && counter < index - 1)
+    {
+        counter++;
+        curNodePtr = curNodePtr->nextNodePtr;
+    }
+
+    // Handle out of bounds exception
+    if (curNodePtr == NULL)
+    {
+        printf("Index out of bounds!\n");
+        free(newNodePtr);
+        return;
+    }
+
+    // Node insertion
+    newNodePtr->nextNodePtr = curNodePtr->nextNodePtr;
+    curNodePtr->nextNodePtr = newNodePtr;
 }
 
 /*
@@ -133,10 +191,20 @@ void insertNodeChoice(Node **headPtr)
     {
     case 1:
         pushNode(headPtr);
+        system("clear");
+        displayList(*headPtr);
         break;
-    
+
     case 2:
         appendNode(headPtr);
+        system("clear");
+        displayList(*headPtr);
+        break;
+
+    case 3:
+        insertNode(headPtr);
+        system("clear");
+        displayList(*headPtr);
         break;
 
     default:
@@ -147,11 +215,11 @@ void insertNodeChoice(Node **headPtr)
 void printMenu()
 {
     printf("╔═════════════════════╦════════════════════╗\n");
-    printf("║ 1 — Create a list   ║ 6 — Display list   ║\n");
-    printf("║ 2 — Insert a node   ║ 7 — Count nodes    ║\n");
-    printf("║ 3 — Search a node   ║ 8 — Reverse List   ║\n");
-    printf("║ 4 — Update a node   ║ 9 — Show Menu      ║\n");
-    printf("║ 5 — Delete a node   ║ 0 — Exit Program   ║\n");
+    printf("║ 1 — Create List     ║ 6 — Update a Node  ║\n");
+    printf("║ 2 — Display List    ║ 7 — Delete a Node  ║\n");
+    printf("║ 3 — Count Nodes     ║ 8 — Reverse List   ║\n");
+    printf("║ 4 — Insert a Node   ║                    ║\n");
+    printf("║ 5 — Search a Node   ║ 0 — Exit Program   ║\n");
     printf("╚═════════════════════╩════════════════════╝\n");
 }
 
@@ -172,16 +240,19 @@ void main()
             break;
 
         case 2:
+            system("clear");
             displayList(headPtr);
             break;
 
         case 3:
-            insertNodeChoice(&headPtr);
-            choice = -1;
+            system("clear");
+            countNodes(headPtr);
             break;
 
         case 4:
-            // insertNode(&headPtr);
+            system("clear");
+            displayList(headPtr);
+            insertNodeChoice(&headPtr);
             break;
 
         case 5:
@@ -198,10 +269,6 @@ void main()
 
         case 8:
             // reverseList(&headPtr);
-            break;
-
-        case 9:
-            printMenu();
             break;
 
         case 0:
