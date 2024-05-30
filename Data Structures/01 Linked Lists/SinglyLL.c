@@ -29,15 +29,15 @@ Node *createList()
 
 void displayList(Node *headPtr)
 {
-    // Declarations
-    Node *curNodePtr = headPtr;
-
-    // Handle edge case
+    // Handle null head pointer
     if (headPtr == NULL)
     {
-        printf("The list is empty.\n\n");
+        printf("List not yet initialized.\n\n");
         return;
     }
+
+    // Declarations
+    Node *curNodePtr = headPtr;
 
     // List traversal and printing
     while (curNodePtr != NULL)
@@ -50,6 +50,13 @@ void displayList(Node *headPtr)
 
 void countNodes(Node *headPtr)
 {
+    // Handle null head pointer
+    if (headPtr == NULL)
+    {
+        printf("List not yet initialized.\n\n");
+        return;
+    }
+
     // Declarations
     int counter = 0;
     Node *curNodePtr = headPtr;
@@ -61,12 +68,7 @@ void countNodes(Node *headPtr)
         counter++;
     }
 
-    // Console Operations
-    if (headPtr == NULL)
-    {
-        printf("The list is empty.\n\n");
-        return;
-    }
+    // Console operations
     (counter == 1)
         ? printf("The list has 1 node.\n\n")
         : printf("The list has %d nodes.\n\n", counter);
@@ -74,14 +76,14 @@ void countNodes(Node *headPtr)
 
 void pushNode(Node **headPtr)
 {
-    // Memory Allocation
+    // Memory allocation
     Node *newHeadPtr = (Node *)malloc(sizeof(Node));
     if (newHeadPtr == NULL)
     {
         printf("Memory allocation failure!\n");
     }
 
-    // Console Operations
+    // Console operations
     system("clear");
     printf("Insert node value:");
     scanf("%d", &newHeadPtr->nodeValue);
@@ -93,7 +95,7 @@ void pushNode(Node **headPtr)
 
 void appendNode(Node **headPtr)
 {
-    // Declarations and Allocation
+    // Declarations and allocation
     Node *curNodePtr = *headPtr;
     Node *newNodePtr = (Node *)malloc(sizeof(Node));
 
@@ -102,7 +104,7 @@ void appendNode(Node **headPtr)
         printf("Memory allocation failed!");
     }
 
-    // Console Operations
+    // Console operations
     system("clear");
     printf("Insert node value:");
     scanf("%d", &newNodePtr->nodeValue);
@@ -155,6 +157,7 @@ void insertNode(Node **headPtr)
     // Handle out of bounds exception
     if (curNodePtr == NULL)
     {
+        system("clear");
         printf("Index out of bounds!\n");
         free(newNodePtr);
         return;
@@ -176,9 +179,12 @@ void searchNodeByIndex(Node *headPtr)
     system("clear");
     printf("Enter desired index:");
     scanf("%d", &index);
+    system("clear");
 
-    // Handle negative index
-    if (index < 0) {
+    // Handle negative index and null head pointer
+    if (index < 0)
+    {
+        system("clear");
         printf("Invalid index. Index must be non-negative.\n\n");
         return;
     }
@@ -194,13 +200,43 @@ void searchNodeByIndex(Node *headPtr)
     if (curNodePtr == NULL)
     {
         system("clear");
-        printf("Index out of bounds.\nCurrent length is %d nodes.\n\n", counter - 1);
+        printf("Index out of bounds.\n\n");
         return;
     }
 
     // Node retrieval
     system("clear");
-    printf("Index: %d\nValue: %d\n\n", index, curNodePtr->nodeValue);
+    printf("Node at index %d has value of %d.\n\n", index, curNodePtr->nodeValue);
+}
+
+void searchNodeByValue(Node *headPtr)
+{
+    // Declarations
+    Node *curNodePtr = headPtr;
+    int index = 0;
+    int queriedValue;
+
+    // Console operations
+    system("clear");
+    printf("Enter desired node value:");
+    scanf("%d", &queriedValue);
+
+    // List traversal to node with desired value
+    while (curNodePtr->nodeValue != queriedValue && headPtr != NULL)
+    {
+        curNodePtr = curNodePtr->nextNodePtr;
+        index++;
+
+        if (curNodePtr == NULL)
+        {
+            system("clear");
+            printf("No nodes with value %d in the list.\n\n", queriedValue);
+            return;
+        }
+    }
+
+    system("clear");
+    printf("First occurance of value %d is at index %d.\n\n", queriedValue, index);
 }
 
 /*
@@ -213,11 +249,18 @@ void reverseList() {}
 
 void insertNodeSubmenu(Node **headPtr)
 {
+    if (*headPtr == NULL)
+    {
+        printf("List not yet initialized.\n\n");
+        return;
+    }
+
     printf("╔═════════════════════════════════╗\n");
     printf("║  1 — Insert at list beginning   ║\n");
     printf("║  2 — Insert at list ending      ║\n");
     printf("║  3 — Insert at specific index   ║\n");
     printf("║  4 — Insert before a value      ║\n");
+    printf("║  5 — Cancel                     ║\n");
     printf("╚═════════════════════════════════╝\n");
 
     int insChoice;
@@ -227,20 +270,21 @@ void insertNodeSubmenu(Node **headPtr)
     {
     case 1:
         pushNode(headPtr);
-        system("clear");
-        displayList(*headPtr);
         break;
 
     case 2:
         appendNode(headPtr);
-        system("clear");
-        displayList(*headPtr);
         break;
 
     case 3:
         insertNode(headPtr);
-        system("clear");
-        displayList(*headPtr);
+        break;
+
+    case 4:
+
+        break;
+
+    case 5:
         break;
 
     default:
@@ -248,11 +292,18 @@ void insertNodeSubmenu(Node **headPtr)
     }
 }
 
-void searchNodeSubmenu(Node *headPointer)
+void searchNodeSubmenu(Node *headPtr)
 {
+    if (headPtr == NULL)
+    {
+        printf("List not yet initialized.\n\n");
+        return;
+    }
+
     printf("╔═════════════════════════════╗\n");
     printf("║  1 — Search node by index   ║\n");
     printf("║  2 — Search node by value   ║\n");
+    printf("║  3 — Cancel                 ║\n");
     printf("╚═════════════════════════════╝\n");
 
     int srcChoice;
@@ -261,11 +312,14 @@ void searchNodeSubmenu(Node *headPointer)
     switch (srcChoice)
     {
     case 1:
-        searchNodeByIndex(headPointer);
+        searchNodeByIndex(headPtr);
         break;
 
     case 2:
-        // searchNodeByIndex();
+        searchNodeByValue(headPtr);
+        break;
+
+    case 3:
         break;
 
     default:
@@ -297,7 +351,6 @@ void main()
         {
         case 1:
             headPtr = createList();
-            displayList(headPtr);
             break;
 
         case 2:
@@ -312,7 +365,6 @@ void main()
 
         case 4:
             system("clear");
-            displayList(headPtr);
             insertNodeSubmenu(&headPtr);
             break;
 
@@ -334,7 +386,7 @@ void main()
             break;
 
         case 0:
-            printf("EXITING PROGRAM!\n");
+            printf("EXITING PROGRAM!\n\n");
             break;
 
         default:
