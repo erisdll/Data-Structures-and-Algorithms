@@ -30,7 +30,7 @@ Node *createList()
 void displayList(Node *headPtr)
 {
     // Declarations
-    Node *currentNode = headPtr;
+    Node *curNodePtr = headPtr;
 
     // Handle edge case
     if (headPtr == NULL)
@@ -40,10 +40,10 @@ void displayList(Node *headPtr)
     }
 
     // List traversal and printing
-    while (currentNode != NULL)
+    while (curNodePtr != NULL)
     {
-        printf("%d -> ", currentNode->nodeValue);
-        currentNode = currentNode->nextNodePtr;
+        printf("%d -> ", curNodePtr->nodeValue);
+        curNodePtr = curNodePtr->nextNodePtr;
     }
     printf("NULL\n\n");
 }
@@ -51,13 +51,13 @@ void displayList(Node *headPtr)
 void countNodes(Node *headPtr)
 {
     // Declarations
-    Node *currentNode = headPtr;
     int counter = 0;
+    Node *curNodePtr = headPtr;
 
     // List traversal for couting
-    while (currentNode != NULL && headPtr != NULL)
+    while (curNodePtr != NULL && headPtr != NULL)
     {
-        currentNode = currentNode->nextNodePtr;
+        curNodePtr = curNodePtr->nextNodePtr;
         counter++;
     }
 
@@ -145,11 +145,11 @@ void insertNode(Node **headPtr)
         *headPtr = newNodePtr;
     }
 
-    // List traversal to correct node
+    // List traversal to desired node
     while (curNodePtr != NULL && counter < index - 1)
     {
-        counter++;
         curNodePtr = curNodePtr->nextNodePtr;
+        counter++;
     }
 
     // Handle out of bounds exception
@@ -165,9 +165,45 @@ void insertNode(Node **headPtr)
     curNodePtr->nextNodePtr = newNodePtr;
 }
 
-/*
-void searchNode() {}
+void searchNodeByIndex(Node *headPtr)
+{
+    // Declarations
+    int index;
+    int counter = 0;
+    Node *curNodePtr = headPtr;
 
+    // Console Operations
+    system("clear");
+    printf("Enter desired index:");
+    scanf("%d", &index);
+
+    // Handle negative index
+    if (index < 0) {
+        printf("Invalid index. Index must be non-negative.\n\n");
+        return;
+    }
+
+    // List traversal to desired node
+    while (counter < index && curNodePtr != NULL)
+    {
+        curNodePtr = curNodePtr->nextNodePtr;
+        counter++;
+    }
+
+    // Handle out of bounds exception
+    if (curNodePtr == NULL)
+    {
+        system("clear");
+        printf("Index out of bounds.\nCurrent length is %d nodes.\n\n", counter - 1);
+        return;
+    }
+
+    // Node retrieval
+    system("clear");
+    printf("Index: %d\nValue: %d\n\n", index, curNodePtr->nodeValue);
+}
+
+/*
 void updateNode() {}
 
 void deleteNode() {}
@@ -175,14 +211,14 @@ void deleteNode() {}
 void reverseList() {}
 */
 
-void insertNodeChoice(Node **headPtr)
+void insertNodeSubmenu(Node **headPtr)
 {
-    printf("╔════════════════════════════════╗\n");
-    printf("║ 1 — Insert at list beginning   ║\n");
-    printf("║ 2 — Insert at list ending      ║\n");
-    printf("║ 3 — Insert at specific index   ║\n");
-    printf("║ 4 — Insert before a value      ║\n");
-    printf("╚════════════════════════════════╝\n");
+    printf("╔═════════════════════════════════╗\n");
+    printf("║  1 — Insert at list beginning   ║\n");
+    printf("║  2 — Insert at list ending      ║\n");
+    printf("║  3 — Insert at specific index   ║\n");
+    printf("║  4 — Insert before a value      ║\n");
+    printf("╚═════════════════════════════════╝\n");
 
     int insChoice;
     scanf("%d", &insChoice);
@@ -212,15 +248,40 @@ void insertNodeChoice(Node **headPtr)
     }
 }
 
+void searchNodeSubmenu(Node *headPointer)
+{
+    printf("╔═════════════════════════════╗\n");
+    printf("║  1 — Search node by index   ║\n");
+    printf("║  2 — Search node by value   ║\n");
+    printf("╚═════════════════════════════╝\n");
+
+    int srcChoice;
+    scanf("%d", &srcChoice);
+
+    switch (srcChoice)
+    {
+    case 1:
+        searchNodeByIndex(headPointer);
+        break;
+
+    case 2:
+        // searchNodeByIndex();
+        break;
+
+    default:
+        break;
+    }
+}
+
 void printMenu()
 {
-    printf("╔═════════════════════╦════════════════════╗\n");
-    printf("║ 1 — Create List     ║ 6 — Update a Node  ║\n");
-    printf("║ 2 — Display List    ║ 7 — Delete a Node  ║\n");
-    printf("║ 3 — Count Nodes     ║ 8 — Reverse List   ║\n");
-    printf("║ 4 — Insert a Node   ║                    ║\n");
-    printf("║ 5 — Search a Node   ║ 0 — Exit Program   ║\n");
-    printf("╚═════════════════════╩════════════════════╝\n");
+    printf("╔══════════════════════╦═════════════════════╗\n");
+    printf("║  1 — Create List     ║  6 — Update a Node  ║\n");
+    printf("║  2 — Display List    ║  7 — Delete a Node  ║\n");
+    printf("║  3 — Count Nodes     ║  8 — Reverse List   ║\n");
+    printf("║  4 — Insert a Node   ║                     ║\n");
+    printf("║  5 — Search a Node   ║  0 — Exit Program   ║\n");
+    printf("╚══════════════════════╩═════════════════════╝\n");
 }
 
 void main()
@@ -252,11 +313,12 @@ void main()
         case 4:
             system("clear");
             displayList(headPtr);
-            insertNodeChoice(&headPtr);
+            insertNodeSubmenu(&headPtr);
             break;
 
         case 5:
-            // searchNode(headPtr);
+            system("clear");
+            searchNodeSubmenu(headPtr);
             break;
 
         case 6:
