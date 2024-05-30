@@ -285,6 +285,7 @@ void insertNodeSubmenu(Node **headPtr)
         break;
 
     case 5:
+        system("clear");
         break;
 
     default:
@@ -320,6 +321,7 @@ void searchNodeSubmenu(Node *headPtr)
         break;
 
     case 3:
+        system("clear");
         break;
 
     default:
