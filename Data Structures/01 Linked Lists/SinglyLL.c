@@ -224,8 +224,7 @@ void searchNodeByValue(Node *headPtr)
     for (
         Node *curNodePtr = headPtr;
         curNodePtr != NULL;
-        curNodePtr = curNodePtr->nextNodePtr, index++
-    )
+        curNodePtr = curNodePtr->nextNodePtr, index++)
     {
         if (curNodePtr->nodeValue == queryValue)
         {
@@ -250,29 +249,40 @@ void updateNodeByIndex(Node *headPtr)
 {
     // Declarations and allocation
     int index;
-    int counter;
+    int counter = 0;
+    int newValue;
     Node *curNodePtr = headPtr;
-    Node *newNodePtr = (Node *)malloc(sizeof(Node));
-
-    if (newNodePtr == NULL)
-    {
-        printf("Memory allocation failed!");
-    }
 
     // Console operations
     system("clear");
     printf("Enter index to update:");
     scanf("%d", &index);
+
+    if (index < 0)
+    {
+        printf("Invalid index. Index must be non-negative.\n\n");
+        return;
+    }
+
     system("clear");
     printf("Enter new node value:");
-    scanf("%d", &newNodePtr->nodeValue);
+    scanf("%d", &newValue);
 
+    while (counter < index && curNodePtr->nextNodePtr != NULL)
+    {
+        curNodePtr = curNodePtr->nextNodePtr;
+        counter++;
+    }
 
+    if (counter == index)
+    {
+        curNodePtr->nodeValue = newValue;
+        printf("Node at index %d has been updated.\n\n", index);
+    }
 }
 
 void updateNodeByValue(Node *headPtr)
 {
-
 }
 
 /*
@@ -358,6 +368,42 @@ void searchNodeSubmenu(Node *headPtr)
     }
 }
 
+void updateNodeSubmenu(Node *headPtr)
+{
+    if (headPtr == NULL)
+    {
+        printf("List not yet initialized.\n\n");
+        return;
+    }
+
+    printf("╔═════════════════════════════╗\n");
+    printf("║  1 — Update node by index   ║\n");
+    printf("║  2 — Update node by value   ║\n");
+    printf("║  3 — Cancel                 ║\n");
+    printf("╚═════════════════════════════╝\n");
+
+    int updChoice;
+    scanf("%d", &updChoice);
+
+    switch (updChoice)
+    {
+    case 1:
+        updateNodeByIndex(headPtr);
+        break;
+
+    case 2:
+        updateNodeByValue(headPtr);
+        break;
+
+    case 3:
+        system("clear");
+        break;
+
+    default:
+        break;
+    }
+}
+
 void printMenu()
 {
     printf("╔══════════════════════╦═════════════════════╗\n");
@@ -405,14 +451,17 @@ void main()
             break;
 
         case 6:
-            // updateNode(headPtr);
+            system("clear");
+            updateNodeSubmenu(headPtr);
             break;
 
         case 7:
+            system("clear");
             // deleteNode(&headPtr);
             break;
 
         case 8:
+            system("clear");
             // reverseList(&headPtr);
             break;
 
