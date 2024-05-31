@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct nodeStruct
 {
@@ -211,37 +212,70 @@ void searchNodeByIndex(Node *headPtr)
 
 void searchNodeByValue(Node *headPtr)
 {
-    // Declarations
-    Node *curNodePtr = headPtr;
+    int queryValue;
     int index = 0;
-    int queriedValue;
+    bool found = false;
 
-    // Console operations
     system("clear");
     printf("Enter desired node value:");
-    scanf("%d", &queriedValue);
+    scanf("%d", &queryValue);
 
     // List traversal to node with desired value
-    while (curNodePtr->nodeValue != queriedValue && headPtr != NULL)
+    for (
+        Node *curNodePtr = headPtr;
+        curNodePtr != NULL;
+        curNodePtr = curNodePtr->nextNodePtr, index++
+    )
     {
-        curNodePtr = curNodePtr->nextNodePtr;
-        index++;
-
-        if (curNodePtr == NULL)
+        if (curNodePtr->nodeValue == queryValue)
         {
-            system("clear");
-            printf("No nodes with value %d in the list.\n\n", queriedValue);
-            return;
+            found = true;
+            break;
         }
     }
 
+    // Return results
     system("clear");
-    printf("First occurance of value %d is at index %d.\n\n", queriedValue, index);
+    if (!found)
+    {
+        printf("No nodes with value %d in the list.\n\n", queryValue);
+    }
+    else
+    {
+        printf("First occurance of value %d is at index %d.\n\n", queryValue, index);
+    }
+}
+
+void updateNodeByIndex(Node *headPtr)
+{
+    // Declarations and allocation
+    int index;
+    int counter;
+    Node *curNodePtr = headPtr;
+    Node *newNodePtr = (Node *)malloc(sizeof(Node));
+
+    if (newNodePtr == NULL)
+    {
+        printf("Memory allocation failed!");
+    }
+
+    // Console operations
+    system("clear");
+    printf("Enter index to update:");
+    scanf("%d", &index);
+    system("clear");
+    printf("Enter new node value:");
+    scanf("%d", &newNodePtr->nodeValue);
+
+
+}
+
+void updateNodeByValue(Node *headPtr)
+{
+
 }
 
 /*
-void updateNode() {}
-
 void deleteNode() {}
 
 void reverseList() {}
@@ -259,8 +293,7 @@ void insertNodeSubmenu(Node **headPtr)
     printf("║  1 — Insert at list beginning   ║\n");
     printf("║  2 — Insert at list ending      ║\n");
     printf("║  3 — Insert at specific index   ║\n");
-    printf("║  4 — Insert before a value      ║\n");
-    printf("║  5 — Cancel                     ║\n");
+    printf("║  4 — Cancel                     ║\n");
     printf("╚═════════════════════════════════╝\n");
 
     int insChoice;
@@ -281,10 +314,6 @@ void insertNodeSubmenu(Node **headPtr)
         break;
 
     case 4:
-
-        break;
-
-    case 5:
         system("clear");
         break;
 
