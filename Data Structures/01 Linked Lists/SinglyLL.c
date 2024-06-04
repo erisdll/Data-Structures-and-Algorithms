@@ -248,9 +248,7 @@ void searchNodeByValue(Node *headPtr)
 void updateNodeByIndex(Node *headPtr)
 {
     // Declarations and allocation
-    int index;
-    int counter = 0;
-    int newValue;
+    int index, newValue;
     Node *curNodePtr = headPtr;
 
     // Console operations
@@ -258,8 +256,10 @@ void updateNodeByIndex(Node *headPtr)
     printf("Enter index to update:");
     scanf("%d", &index);
 
+    // Handle negative index
     if (index < 0)
     {
+        system("clear");
         printf("Invalid index. Index must be non-negative.\n\n");
         return;
     }
@@ -268,17 +268,24 @@ void updateNodeByIndex(Node *headPtr)
     printf("Enter new node value:");
     scanf("%d", &newValue);
 
-    while (counter < index && curNodePtr->nextNodePtr != NULL)
+    // List traversal to desired node
+    for (int i = 0; i < index && curNodePtr != NULL; i++)
     {
         curNodePtr = curNodePtr->nextNodePtr;
-        counter++;
     }
 
-    if (counter == index)
+    // Handle out of bounds exception
+    if (curNodePtr == NULL)
     {
-        curNodePtr->nodeValue = newValue;
-        printf("Node at index %d has been updated.\n\n", index);
+        system("clear");
+        printf("Index out of bounds.\n\n");
+        return;
     }
+
+    // Node update
+    curNodePtr->nodeValue = newValue;
+    system("clear");
+    printf("Node at index %d has been updated.\n\n", index);
 }
 
 void updateNodeByValue(Node *headPtr)
