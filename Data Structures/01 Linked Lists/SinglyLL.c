@@ -290,11 +290,98 @@ void updateNodeByIndex(Node *headPtr)
 
 void updateNodeByValue(Node *headPtr)
 {
+    // Declarations and allocation
+    bool found = false;
+    int queryValue, newValue;
+    Node *curNodePtr = headPtr;
+
+    // Console operations
+    system("clear");
+    printf("Enter node value to query and update:");
+    scanf("%d", &queryValue);
+
+    // List traversal to desired node
+    while (curNodePtr->nextNodePtr != NULL && found != true)
+    {
+        if (curNodePtr->nodeValue == queryValue)
+        {
+            found = true;
+            break;
+        }
+        curNodePtr = curNodePtr->nextNodePtr;
+    }
+
+    // Handle out of bounds exception
+    if (found == false)
+    {
+        system("clear");
+        printf("No nodes with value %d in the list.\n\n", queryValue);
+        return;
+    }
+
+    // Node update
+    system("clear");
+    printf("Enter new node value (current is %d):", curNodePtr->nodeValue);
+    scanf("%d", &newValue);
+    curNodePtr->nodeValue = newValue;
+    system("clear");
+    printf("Node with value %d has been updated.\n\n", queryValue);
 }
 
-/*
-void deleteNode() {}
+void deleteNodebyIndex(Node **headPtr)
+{
+    // Declarations and allocation
+    int queryIndex;
+    int index = 0;
+    Node *curNodePtr = *headPtr;
+    Node *prevNodePtr = NULL;
 
+    // Console operations
+    system("clear");
+    printf("Enter index to delete:");
+    scanf("%d", &queryIndex);
+
+    while (index != queryIndex && curNodePtr != NULL)
+    {
+        prevNodePtr = curNodePtr;
+        curNodePtr = curNodePtr->nextNodePtr;
+        index++;
+    }
+
+    // Handle negative index exception
+    if (queryIndex < 0)
+    {
+        system("clear");
+        printf("Invalid index. Index must be non-negative.\n\n");
+        return;
+    }
+
+    // Handle out of bounds exception
+    if (curNodePtr == NULL)
+    {
+        system("clear");
+        printf("Index out of bounds.\n\n");
+        return;
+    }
+
+    // Node deletion at index 0
+    if (index == 0)
+    {
+        *headPtr = curNodePtr->nextNodePtr;
+        free(curNodePtr);
+        printf("Node at index %d has been deleted.\n\n", index);
+        return;
+    }
+
+    // Node deletion
+    prevNodePtr->nextNodePtr = curNodePtr->nextNodePtr;
+    free(curNodePtr);
+    printf("Node at index %d has been deleted.\n\n", index);
+}
+
+void deleteNodeByValue(Node **headPtr) {}
+
+/*
 void reverseList() {}
 */
 
@@ -411,6 +498,41 @@ void updateNodeSubmenu(Node *headPtr)
     }
 }
 
+void deleteNodeSubmenu(Node **headPtr) {
+    if (*headPtr == NULL)
+    {
+        printf("List not yet initialized.\n\n");
+        return;
+    }
+
+    printf("╔═════════════════════════════╗\n");
+    printf("║  1 — Delete node by index   ║\n");
+    printf("║  2 — Delete node by value   ║\n");
+    printf("║  3 — Cancel                 ║\n");
+    printf("╚═════════════════════════════╝\n");
+
+    int delChoice;
+    scanf("%d", &delChoice);
+
+    switch (delChoice)
+    {
+    case 1:
+        deleteNodebyIndex(headPtr);
+        break;
+
+    case 2:
+        deleteNodeByValue(headPtr);
+        break;
+
+    case 3:
+        system("clear");
+        break;
+
+    default:
+        break;
+    }
+}
+
 void printMenu()
 {
     printf("╔══════════════════════╦═════════════════════╗\n");
@@ -464,7 +586,7 @@ void main()
 
         case 7:
             system("clear");
-            // deleteNode(&headPtr);
+            deleteNodeSubmenu(&headPtr);
             break;
 
         case 8:
