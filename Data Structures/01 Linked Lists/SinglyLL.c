@@ -301,18 +301,13 @@ void updateNodeByValue(Node *headPtr)
     scanf("%d", &queryValue);
 
     // List traversal to desired node
-    while (curNodePtr->nextNodePtr != NULL && found != true)
+    while (curNodePtr->nextNodePtr != NULL && curNodePtr->nodeValue != queryValue)
     {
-        if (curNodePtr->nodeValue == queryValue)
-        {
-            found = true;
-            break;
-        }
         curNodePtr = curNodePtr->nextNodePtr;
     }
 
-    // Handle out of bounds exception
-    if (found == false)
+    // Handle not found exception
+    if (curNodePtr == NULL)
     {
         system("clear");
         printf("No nodes with value %d in the list.\n\n", queryValue);
@@ -323,6 +318,7 @@ void updateNodeByValue(Node *headPtr)
     system("clear");
     printf("Enter new node value (current is %d):", curNodePtr->nodeValue);
     scanf("%d", &newValue);
+    
     curNodePtr->nodeValue = newValue;
     system("clear");
     printf("Node with value %d has been updated.\n\n", queryValue);
@@ -379,7 +375,49 @@ void deleteNodebyIndex(Node **headPtr)
     printf("Node at index %d has been deleted.\n\n", index);
 }
 
-void deleteNodeByValue(Node **headPtr) {}
+void deleteNodeByValue(Node **headPtr)
+{
+    // Declarations and allocation
+    bool found = false;
+    int queryValue;
+    Node *curNodePtr = *headPtr;
+    Node *prevNodePtr = NULL;
+
+    // Console operations
+    system("clear");
+    printf("Enter node value to query and delete:");
+    scanf("%d", &queryValue);
+
+    // List traversal to desired node
+    while (curNodePtr != NULL && curNodePtr->nodeValue != queryValue)
+    {
+        prevNodePtr = curNodePtr;
+        curNodePtr = curNodePtr->nextNodePtr;
+    }
+
+    // Handle not found exception
+    if (curNodePtr == NULL)
+    {
+        system("clear");
+        printf("No nodes with value %d in the list.\n\n", queryValue);
+        return;
+    }
+
+    // Node deletion
+    if(prevNodePtr == NULL) {
+        *headPtr = curNodePtr->nextNodePtr;
+        free(curNodePtr);
+        printf("Node with value %d has been deleted.\n\n", queryValue);
+    } else if (curNodePtr->nextNodePtr == NULL) {
+        prevNodePtr->nextNodePtr = NULL;
+        free(curNodePtr);
+        printf("Node with value %d has been deleted.\n\n", queryValue);
+    } else {
+        prevNodePtr->nextNodePtr = curNodePtr->nextNodePtr;
+        free(curNodePtr);
+        printf("Node with value %d has been deleted.\n\n", queryValue);
+    }
+}
 
 /*
 void reverseList() {}
@@ -498,7 +536,8 @@ void updateNodeSubmenu(Node *headPtr)
     }
 }
 
-void deleteNodeSubmenu(Node **headPtr) {
+void deleteNodeSubmenu(Node **headPtr)
+{
     if (*headPtr == NULL)
     {
         printf("List not yet initialized.\n\n");
