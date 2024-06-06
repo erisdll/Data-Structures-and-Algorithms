@@ -43,10 +43,12 @@ void displayList(Node *headPtr)
     // List traversal and printing
     while (curNodePtr != NULL)
     {
-        printf("%d -> ", curNodePtr->nodeValue);
+        printf("%d", curNodePtr->nodeValue);
+        if (curNodePtr->nextNodePtr != NULL)
+            printf(" -> ");
         curNodePtr = curNodePtr->nextNodePtr;
     }
-    printf("NULL\n\n");
+    printf("\n\n");
 }
 
 void countNodes(Node *headPtr)
